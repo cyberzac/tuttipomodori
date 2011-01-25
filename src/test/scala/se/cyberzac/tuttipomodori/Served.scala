@@ -4,7 +4,7 @@ import org.specs.Specification
 import org.specs.runner.ScalaTest
 import dispatch._
 
-trait Served extends Specification with ScalaTest {
+trait Served extends Specification {
   // shareVariables()
 
   import unfiltered.jetty._
