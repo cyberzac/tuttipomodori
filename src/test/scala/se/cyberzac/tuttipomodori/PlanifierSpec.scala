@@ -32,17 +32,34 @@ class PlanifierSpec extends Served {
     "delete an user with Delete" in {
       Http(host / "users/nisse" <<< "password" >|)
       Http((host / "users/nisse").DELETE >|)
-      Http(host / "users/nisse" <<< "password" as_str)   must_==   "http://localhost/users/nisse"
+      Http(host / "users/nisse" <<< "password" as_str) must_== "http://localhost/users/nisse"
     }
 
     "throw a NotFound if trying to delete an unknown user" in {
-      Http((host / "users/nisse").DELETE >|)  must throwAn(new StatusCode(404, "no user nisse"))
+      Http((host / "users/nisse").DELETE >|) must throwAn(new StatusCode(404, "no user nisse"))
     }
 
 
-    "throw an NotFound if requesting status for an unknown userid" in {
+    "throw a NotFound if requesting status for an unknown userid" in {
       Http(host / "users/nisse" >|) must throwAn(new StatusCode(404, "no user nisse"))
     }
 
+    "return zero if no pomodori is active for a user" in {
+      Http(host / "users/martin" <<< "password" >|)
+      Http(host / "users/martin" as_str) must_== "0"
+    }
+
+    "throw a NotFound when posting a new pomodoro to an unknown user" in {
+      Http(host / "users/martin" << "60000" >|) must throwAn(new StatusCode(404, "no such user martin"))
+    }
+
+    "return a value greater than zero for an active pomodoro" in {
+      Http(host / "users/martin" <<< "password" >|)
+      Http(host / "users/martin" << "60000" >|) // 60 s pomodoro
+      val result = Http(host / "users/martin" as_str)
+      result must_!= "0"
+
+    }
   }
+
 }

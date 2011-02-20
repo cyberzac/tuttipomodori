@@ -13,6 +13,8 @@ class Project(info: ProjectInfo) extends DefaultProject(info) {
   val dispatch_version = "0.7.8"
   val dispatch =  "net.databinder" %% "dispatch-http" % dispatch_version withSources()
 
+  val yodatime = "joda-time" % "joda-time" % "1.6.2"
+
   /*
   val slf4j_version = "1.6.1"
   val slf4j = "org.slf4j" % "slf4j-api" % slf4j_version
