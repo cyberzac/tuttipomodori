@@ -20,7 +20,7 @@ class Planifier {
       case PUT(Path(Seg("users" :: user :: Nil))) => registerUser(user)
       case DELETE(Path(Seg("users" :: Nil))) => clearUsers
       case DELETE(Path(Seg("users" :: user :: Nil))) => clearUser(user)
-      case POST(Path(Seg("/users" :: user :: nil))) => setPomodoro(user, 25*60*1000)
+      case POST(Path(Seg("users" :: user :: Nil))) => setPomodoro(user, 25*60*1000)
       case GET(Path(Seg("users" :: user :: Nil))) => getPomodoro(user)
       case _ => NotFound
     })
